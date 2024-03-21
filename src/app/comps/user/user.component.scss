@@ -1,9 +1,37 @@
 .card {
     padding: 12px;
     width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .flex {
     display: flex;
     padding: 12px;
+    gap: 12px;
+    align-items: center;
+
+
+}
+
+.bot-field { 
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.color-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    justify-content: center;
 }

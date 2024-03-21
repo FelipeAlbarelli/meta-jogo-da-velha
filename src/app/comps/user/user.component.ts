@@ -1,4 +1,4 @@
-import { Component,  signal } from '@angular/core';
+import { Component,  computed,  effect,  signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -11,18 +11,25 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ButtonModule } from 'primeng/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { Emoji, EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import _ from 'lodash';
+import { ChipModule } from 'primeng/chip';
+import hexRgb from 'hex-rgb';
+import getRelativeLuminance from 'get-relative-luminance'
 
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [
-    AvatarModule , 
+    AvatarModule , ChipModule,
+    ColorPickerModule,
     ButtonModule , OverlayPanelModule , EmojiComponent , CardModule , FormsModule, FloatLabelModule , InputTextModule, PickerComponent ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent {
+
 
   readonly defaultOptions = [
     "+1",
@@ -34,12 +41,47 @@ export class UserComponent {
     "mouse2"
   ] 
 
+  color = signal<string>(['#dd0000' , '#00dd00' , '#0000dd'][_.random(2)])
+
+  relativeLum = computed( () => {
+    const rgb = hexRgb(this.color())
+    return getRelativeLuminance(`rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`)
+  })
+
+  fontColor = computed( () => {
+    const relativeLum = this.relativeLum()
+    if (relativeLum > 0.179) {
+      return '#000000' as const
+    }
+    return '#ffffff' as const 
+  })
+
+
+  bothColors = computed( () => {
+    return {
+      color: this.fontColor(),
+      'background-color' : this.color()
+    }
+  }) 
+  
+
+
   log({event, emoji} : {event: Event, emoji: any}) {
     this.marker.set(emoji.id)
   }
+  
+  onHide() {
 
-  marker = signal<string>(this.defaultOptions[ Math.ceil(Math.random() * 7) ])
+    console.log(this.bothColors)
+  }
+
+
+  marker = signal<string>(this.defaultOptions[ _.random(0, this.defaultOptions.length - 1) ])
 
   name = signal('')
+
+  firstLetter = computed( () => {
+    return (this.name().length > 0) ? this.name()[0] : '-'
+  })
 
 }

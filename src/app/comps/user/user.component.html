@@ -2,28 +2,46 @@
 <p-card >
     <ng-template pTemplate="header">
         <div class="flex">
-            <p-avatar icon="pi pi-user" styleClass="mr-2"></p-avatar>
+            <div class="avatar"
+                size="xlarge"
+                [style.background]="color()"
+                [style.color]="fontColor()"
+                >
+                <span 
+                    class="text-base"
+                >{{firstLetter()}}</span>
+            </div>            
             <h4>{{name() || 'Nome'}}</h4>
         </div>
     </ng-template>
     <div class="card card-content">
         <input  class="p-inputtext-sm" placeholder="nome" pInputText [(ngModel)]="name" />
-        <div class="emoji-field">
-            <p-overlayPanel #op>
-                <emoji-mart 
-                    title="Faça sua escolha"
-                    [darkMode]="false"
-                    [useButton]="true"
-                    [isNative]="true"
-                    (emojiSelect)="log($event)"
-                ></emoji-mart>
-            </p-overlayPanel>
-            <p-button
-                (click)="op.toggle($event)"
-                size="small"
+        <div class="bot-field">
+            <div class="color-container">
+                <span>{{color()}}</span>
+                <p-colorPicker 
+                    [(ngModel)]="color"
+                    (onHide)="onHide()"
+                ></p-colorPicker>
+            </div>
+            <div class="btn-container">
+                <p-overlayPanel #op>
+                    <emoji-mart 
+                        title="Faça sua escolha"
+                        [darkMode]="false"
+                        [useButton]="true"
+                        [isNative]="true"
+                        (emojiSelect)="log($event)"
+                    ></emoji-mart>
+                </p-overlayPanel>
+                <p-button
+                    (click)="op.toggle($event)"
+                    size="small"
+                    [outlined]="true"
                 >
-                <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
-            </p-button>
+                    <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
+                </p-button>
+            </div>
         </div>
     </div>
 </p-card>

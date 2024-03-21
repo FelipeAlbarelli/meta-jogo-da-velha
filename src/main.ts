@@ -4,6 +4,8 @@ import 'zone.js';
 import { AssistenteDashboardComponent } from './app/main/main.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PrimeNGConfig } from 'primeng/api';
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
