@@ -1,6 +1,7 @@
-import { Component,  computed,  effect,  signal } from '@angular/core';
+import { Component,  computed,  effect,  inject,  input,  model,  signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
+import { ButtonGroupModule } from 'primeng/buttongroup';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,6 +17,8 @@ import _ from 'lodash';
 import { ChipModule } from 'primeng/chip';
 import hexRgb from 'hex-rgb';
 import getRelativeLuminance from 'get-relative-luminance'
+import { GameService } from '../../game.service';
+import { BasePlayer } from '../../game';
 
 
 @Component({
@@ -23,12 +26,42 @@ import getRelativeLuminance from 'get-relative-luminance'
   standalone: true,
   imports: [
     AvatarModule , ChipModule,
+    ButtonGroupModule,
     ColorPickerModule,
     ButtonModule , OverlayPanelModule , EmojiComponent , CardModule , FormsModule, FloatLabelModule , InputTextModule, PickerComponent ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent {
+
+
+  player = model.required<BasePlayer | null>()
+
+  // playerFromForms = computed( () => {
+  //   return {
+  //     name: this.name(),
+  //     color: this.color(),
+  //     marker: this.marker()
+  //   }
+  // })
+
+  updateModelEf = effect( () => {
+    const player = this.player()
+    if (player == null) {
+      return
+    }
+    this.color.set(player.color)
+    this.marker.set(player.marker)
+    this.name.set(player.name)
+  }, {allowSignalWrites: true})
+
+  ready() {
+    this.player.update( (base) => ({
+      marker: this.marker(),
+      name: this.name(),
+      color: this.color(),
+      ready: true}))
+  }
 
 
   readonly defaultOptions = [
@@ -70,12 +103,6 @@ export class UserComponent {
     this.marker.set(emoji.id)
   }
   
-  onHide() {
-
-    console.log(this.bothColors)
-  }
-
-
   marker = signal<string>(this.defaultOptions[ _.random(0, this.defaultOptions.length - 1) ])
 
   name = signal('')

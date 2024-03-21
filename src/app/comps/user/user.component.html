@@ -15,13 +15,12 @@
         </div>
     </ng-template>
     <div class="card card-content">
-        <input  class="p-inputtext-sm" placeholder="nome" pInputText [(ngModel)]="name" />
+        <input  class="p-inputtext-sm" placeholder="nome" 
+            pInputText [(ngModel)]="name" />
         <div class="bot-field">
             <div class="color-container">
-                <span>{{color()}}</span>
                 <p-colorPicker 
                     [(ngModel)]="color"
-                    (onHide)="onHide()"
                 ></p-colorPicker>
             </div>
             <div class="btn-container">
@@ -42,6 +41,13 @@
                     <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
                 </p-button>
             </div>
+
+                <p-buttonGroup>
+                    <p-button  (onClick)="ready()" icon="pi pi-check"></p-button>
+                    <p-button  icon="pi pi-trash"></p-button>
+                </p-buttonGroup>
+
+            
         </div>
     </div>
 </p-card>

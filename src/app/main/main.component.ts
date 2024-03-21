@@ -19,7 +19,7 @@ type StudentDocItem = BaseStudentDocItem & {
   styleUrl: './main.component.scss',
 })
 export class AssistenteDashboardComponent {
-
   gameService = inject(GameService)
+
 
 }

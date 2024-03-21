@@ -1,6 +1,7 @@
 <div class="container">
   <div class="center">
     <app-user 
+      [(player)]="gameService.player1"
       class="user"
     ></app-user>
     <app-game-board
@@ -8,6 +9,7 @@
     >
     </app-game-board>
     <app-user 
+      [(player)]="gameService.player2"
       class="user"
     ></app-user>
   </div>
