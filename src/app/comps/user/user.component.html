@@ -7,6 +7,23 @@
         </div>
     </ng-template>
     <div class="card card-content">
-        
+        <input  class="p-inputtext-sm" placeholder="nome" pInputText [(ngModel)]="name" />
+        <div class="emoji-field">
+            <p-overlayPanel #op>
+                <emoji-mart 
+                    title="Faça sua escolha"
+                    [darkMode]="false"
+                    [useButton]="true"
+                    [isNative]="true"
+                    (emojiSelect)="log($event)"
+                ></emoji-mart>
+            </p-overlayPanel>
+            <p-button
+                (click)="op.toggle($event)"
+                size="small"
+                >
+                <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
+            </p-button>
+        </div>
     </div>
 </p-card>

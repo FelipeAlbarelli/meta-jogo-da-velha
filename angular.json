@@ -37,9 +37,7 @@
             "outputPath": "dist/demo",
             "scripts": [],
             "styles": [
-              "src/global_styles.scss",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "src/global_styles.scss"
             ],
             "tsConfig": "tsconfig.app.json"
           }
