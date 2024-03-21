@@ -1,7 +1,8 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { BaseStudentDocItem, getDataJoao } from '../data/joao';
 import { GameBoardComponent } from '../comps/game-board/game-board.component';
 import { UserComponent } from '../comps/user/user.component';
+import { GameService } from '../game.service';
 type StudentDocItem = BaseStudentDocItem & {
   underAnalysis: boolean;
   readble: boolean;
@@ -18,5 +19,7 @@ type StudentDocItem = BaseStudentDocItem & {
   styleUrl: './main.component.scss',
 })
 export class AssistenteDashboardComponent {
+
+  gameService = inject(GameService)
 
 }
