@@ -27,31 +27,37 @@ export class GameService  {
   })
 
   bothReady = computed( () => {
-    return this.player1() != null && this.player2() != null
+    return this.player1()?.ready && this.player2()?.ready
   } )
 
-  playerReady(player: BasePlayer , id: '1' | '2') {
-    if (id == '1') {
-      this.player1.set(player)
-    } else {
-      this.player2.set(player)
+  startGame( ) {
+    if (!this.bothReady()) {
+      console.error('nem todos estão prontos')
+      throw new Error()
     }
-    console.log({
-      player1 : this.player1(),
-      player2 : this.player2(),
-    })
-  }
-
-  startGame(player1 : BasePlayer , player2: BasePlayer ) {
-    this.player1.set(player1)
-    this.player2.set(player2)
     const machine = newGameMachine(this.player1()! , this.player2()! );
-    const x = newGameMachine(player1 , player2).getInitialSnapshot
+    const x = newGameMachine(this.player1()! , this.player2()! ).getInitialSnapshot
     const actor = createActor(machine)
-    actor.start()
-    actor.subscribe( x => {
-      console.log(x)
+    actor.subscribe(snap => {
+      const value = snap.value;
+      console.log(value)
+      if (value == 'finished') {
+
+      } else  if (value == 'off') {
+
+      }else {
+        const playing = value.playing!;
+        if (playing == '1') {
+          this.player1.update( (prev) => ({...prev! , myTurn: true}))
+          this.player2.update( (prev) => ({...prev! , myTurn: false}))
+        } else {
+          this.player2.update( (prev) => ({...prev! , myTurn: true}))
+          this.player1.update( (prev) => ({...prev! , myTurn: false}))
+        }
+      }
     })
+    actor.start()
+    return actor;
   }
 
   constructor() {

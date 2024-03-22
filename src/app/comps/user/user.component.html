@@ -1,53 +1,65 @@
+<div 
+    class="outer"
+    [style.outline]=" player()?.myTurn? '8px solid ' + color() : ''"
+    [style]="{
+       ' outline-offset': '16px'
+    }"
+    >
+    <p-card 
 
-<p-card >
-    <ng-template pTemplate="header">
-        <div class="flex">
-            <div class="avatar"
-                size="xlarge"
-                [style.background]="color()"
-                [style.color]="fontColor()"
-                >
-                <span 
-                    class="text-base"
-                >{{firstLetter()}}</span>
-            </div>            
-            <h4>{{name() || 'Nome'}}</h4>
-        </div>
-    </ng-template>
-    <div class="card card-content">
-        <input  class="p-inputtext-sm" placeholder="nome" 
-            pInputText [(ngModel)]="name" />
-        <div class="bot-field">
-            <div class="color-container">
-                <p-colorPicker 
-                    [(ngModel)]="color"
-                ></p-colorPicker>
+    >
+        <ng-template pTemplate="header">
+            <div class="flex">
+                <div class="avatar"
+                    size="xlarge"
+                    [style.background]="color()"
+                    [style.color]="fontColor()"
+                    >
+                    <span 
+                        class="text-base"
+                    >{{firstLetter()}}</span>
+                </div>            
+                <h4>{{name() || 'Nome'}}</h4>
             </div>
-            <div class="btn-container">
-                <p-overlayPanel #op>
-                    <emoji-mart 
-                        title="Faça sua escolha"
-                        [darkMode]="false"
-                        [useButton]="true"
-                        [isNative]="true"
-                        (emojiSelect)="log($event)"
-                    ></emoji-mart>
-                </p-overlayPanel>
-                <p-button
-                    (click)="op.toggle($event)"
-                    size="small"
-                    [outlined]="true"
-                >
-                    <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
-                </p-button>
+        </ng-template>
+        <div 
+            class="card card-content"
+            >
+            <input  class="p-inputtext-sm" placeholder="nome" 
+                pInputText [(ngModel)]="name" />
+            <div class="bot-field">
+                <div class="color-container">
+                    <p-colorPicker 
+                        [(ngModel)]="color"
+                    ></p-colorPicker>
+                </div>
+                <div class="btn-container">
+                    <p-overlayPanel #op>
+                        <emoji-mart 
+                            title="Faça sua escolha"
+                            [darkMode]="false"
+                            [useButton]="true"
+                            [isNative]="true"
+                            (emojiSelect)="log($event)"
+                        ></emoji-mart>
+                    </p-overlayPanel>
+                    <p-button
+                        (click)="op.toggle($event)"
+                        size="small"
+                        [outlined]="true"
+                    >
+                        <ngx-emoji [emoji]="marker()" [size]="26"></ngx-emoji>
+                    </p-button>
+                </div>
+    
+                    <p-buttonGroup>
+                        <p-button  (onClick)="ready()" icon="pi pi-check"></p-button>
+                        <p-button  icon="pi pi-trash"></p-button>
+                    </p-buttonGroup>
+    
+                
             </div>
-
-                <p-buttonGroup>
-                    <p-button  (onClick)="ready()" icon="pi pi-check"></p-button>
-                    <p-button  icon="pi pi-trash"></p-button>
-                </p-buttonGroup>
-
-            
         </div>
-    </div>
-</p-card>
+    </p-card>
+</div>
+

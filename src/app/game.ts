@@ -77,7 +77,8 @@ export type BasePlayer = {
   name: string,
   color: string,
   marker: string,
-  ready?: boolean
+  ready?: boolean,
+  myTurn?: boolean,
 } 
 
 const b = emptySecondOrderBoard()
