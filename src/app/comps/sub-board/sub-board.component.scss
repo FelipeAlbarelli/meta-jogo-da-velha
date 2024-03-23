@@ -1,0 +1,15 @@
+.container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(3 , 1fr);
+    // gap: 4%;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.cell {
+    border: #777 solid 2px;
+    height: calc(( var(--board-size) - 30px) / 9  );
+    width:  calc(( var(--board-size) - 30px) / 9  );
+}
