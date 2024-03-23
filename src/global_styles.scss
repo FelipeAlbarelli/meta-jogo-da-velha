@@ -64,5 +64,7 @@ body {
 }
 
 :root {
-	--board-size : 730px
+	--board-size : 730px;
+	--mini-board-size :  calc(( var(--board-size) - 20px) / 3  ) ; 
+	--cell-size:  calc(( var(--board-size) - (var(--board-size) *0.1)) / 9  );
   }

@@ -16,8 +16,8 @@
 }
 
 .board {
-    height: calc(( var(--board-size) - 20px) / 3  ) ;
-    width:  calc(( var(--board-size) - 20px) / 3  );
+    height: var(--mini-board-size);
+    width:  var(--mini-board-size);
     
     background: #ffffff;
     color: #4b5563;
