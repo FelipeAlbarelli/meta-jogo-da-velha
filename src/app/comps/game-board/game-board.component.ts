@@ -14,6 +14,9 @@ import { ButtonGroupModule } from 'primeng/buttongroup';
 export class GameBoardComponent {
   gameService = inject(GameService)
 
+  cells = [0,0,0,0,0,0,0,0,0]
+
+  gameStarted = signal(true)
 
   startGame() {
 

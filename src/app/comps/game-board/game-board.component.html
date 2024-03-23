@@ -1,12 +1,25 @@
 <div class="container">
-    <p-button
-        [disabled]="!gameService.bothReady()" 
-        label="Start"
-        (onClick)="startGame()"
-    ></p-button>
+    @if ( gameStarted() ) {
+        <div class="boards-container">
+            @for (cell of cells; track $index) {
+                <div class="board">
+        
+                </div>
     
-    <p-buttonGroup>
-        <p-button  icon="pi pi-check"></p-button>
-        <p-button  >Proximo</p-button>
-    </p-buttonGroup>
+            }
+        </div>
+
+    } 
+    @if (!gameStarted()) {
+        <p-button
+            [disabled]="!gameService.bothReady()" 
+            label="Start"
+            (onClick)="startGame()"
+        ></p-button>
+        
+        <p-buttonGroup>
+            <p-button  icon="pi pi-check"></p-button>
+            <p-button  >Proximo</p-button>
+        </p-buttonGroup>
+    }
 </div>
