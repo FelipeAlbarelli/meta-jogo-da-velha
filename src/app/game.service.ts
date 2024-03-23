@@ -1,8 +1,6 @@
 import { Injectable, OnInit, computed, effect, signal } from '@angular/core';
 import _ from 'lodash';
-import {  Matrix } from 'ts-matrix';
-import { BasePlayer,  newGameMachine } from './game';
-import { createMachine, createActor } from 'xstate';
+import { BasePlayer } from './game-logic/player.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,37 +25,12 @@ export class GameService  {
   })
 
   bothReady = computed( () => {
-    return this.player1()?.ready && this.player2()?.ready
+    // return this.player1()?.ready && this.player2()?.ready
+    return false
   } )
 
   startGame( ) {
-    if (!this.bothReady()) {
-      console.error('nem todos estão prontos')
-      throw new Error()
-    }
-    const machine = newGameMachine(this.player1()! , this.player2()! );
-    const x = newGameMachine(this.player1()! , this.player2()! ).getInitialSnapshot
-    const actor = createActor(machine)
-    actor.subscribe(snap => {
-      const value = snap.value;
-      console.log(value)
-      if (value == 'finished') {
 
-      } else  if (value == 'off') {
-
-      }else {
-        const playing = value.playing!;
-        if (playing == '1') {
-          this.player1.update( (prev) => ({...prev! , myTurn: true}))
-          this.player2.update( (prev) => ({...prev! , myTurn: false}))
-        } else {
-          this.player2.update( (prev) => ({...prev! , myTurn: true}))
-          this.player1.update( (prev) => ({...prev! , myTurn: false}))
-        }
-      }
-    })
-    actor.start()
-    return actor;
   }
 
   constructor() {

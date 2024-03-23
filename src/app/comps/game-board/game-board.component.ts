@@ -14,14 +14,9 @@ import { ButtonGroupModule } from 'primeng/buttongroup';
 export class GameBoardComponent {
   gameService = inject(GameService)
 
-  actor = signal<ReturnType<GameService['startGame']> | null>(null)
 
   startGame() {
-    const actor = this.gameService.startGame()
-    this.actor.set(actor)
-    actor.subscribe( x => {
-      // console.log(x.value)
-    })
+
   }
 
 }

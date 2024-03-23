@@ -1,6 +1,6 @@
 <div 
     class="outer"
-    [style.outline]=" player()?.myTurn? '8px solid ' + color() : ''"
+    [style.outline]=" myTurn() ? '8px solid ' + color() : ''"
     [style]="{
        ' outline-offset': '16px'
     }"
@@ -19,11 +19,14 @@
                         class="text-base"
                     >{{firstLetter()}}</span>
                 </div>            
-                <h4>{{name() || 'Nome'}}</h4>
+                <h4
+                    (click)="isClosed.set(! isClosed())"
+                >{{name() || 'Nome'}}</h4>
             </div>
         </ng-template>
         <div 
             class="card card-content"
+            [@openClose]="openClose()"
             >
             <input  class="p-inputtext-sm" placeholder="nome" 
                 pInputText [(ngModel)]="name" />

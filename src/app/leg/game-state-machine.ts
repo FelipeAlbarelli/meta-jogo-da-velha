@@ -1,5 +1,6 @@
 import { Matrix } from "ts-matrix"
 import { createMachine, setup } from "xstate"
+import { BasePlayer } from "../game-logic/player.model"
 
 const emptySecondOrderBoard = () => {
     return new Matrix(9,9)
@@ -73,13 +74,6 @@ export const newGameMachine = (player1: BasePlayer , player2 : BasePlayer) => {
 }
 
 
-export type BasePlayer = {
-  name: string,
-  color: string,
-  marker: string,
-  ready?: boolean,
-  myTurn?: boolean,
-} 
 
 const b = emptySecondOrderBoard()
 

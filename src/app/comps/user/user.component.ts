@@ -17,8 +17,8 @@ import _ from 'lodash';
 import { ChipModule } from 'primeng/chip';
 import hexRgb from 'hex-rgb';
 import getRelativeLuminance from 'get-relative-luminance'
-import { GameService } from '../../game.service';
-import { BasePlayer } from '../../game';
+import { BasePlayer } from '../../game-logic/player.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
@@ -30,20 +30,43 @@ import { BasePlayer } from '../../game';
     ColorPickerModule,
     ButtonModule , OverlayPanelModule , EmojiComponent , CardModule , FormsModule, FloatLabelModule , InputTextModule, PickerComponent ],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
+  animations: [
+    trigger( 'openClose' , [
+      state('open' , style({
+        overflow: 'hidden',
+        height: '*',
+      })),
+      state('close' , style({
+        opacity: '0',
+        overflow: 'hidden',
+        height: '0px',
+      })),
+
+      transition( 'open => close' , [
+        animate('400ms ease-in-out')
+      ]),
+
+      transition( 'close => open' , [
+        animate('400ms ease-in-out')
+        
+      ])
+
+    ] )
+  ]
 })
 export class UserComponent {
 
 
   player = model.required<BasePlayer | null>()
 
-  // playerFromForms = computed( () => {
-  //   return {
-  //     name: this.name(),
-  //     color: this.color(),
-  //     marker: this.marker()
-  //   }
-  // })
+  myTurn = input<boolean>(false)
+
+  isClosed = signal(false)
+
+  openClose = computed( () => {
+    return this.isClosed() ? 'close' : 'open'
+  })
 
   updateModelEf = effect( () => {
     const player = this.player()
