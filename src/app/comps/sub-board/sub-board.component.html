@@ -2,20 +2,25 @@
     @for (cell of cells; track $index) {
         <div 
 
-            (click)="gameS.makePlay(id() , $index)"
+            (click)=" log()"
             class="cell"
         >
+        <ngx-emoji
+            [emoji]="gameS.currentPlayer()?.marker ?? ''" [size]="26"
+            (emojiClick)="gameS.makePlay(id() , $index)"
+            >
+        </ngx-emoji>
             
         </div>
     }
 
-    @if (blackLines()) {
+    <!-- @if (blackLines()) {
         <div class="line ver a"></div>
         <div class="line ver b"></div>
 
 
         <div class="line hor a"></div>
         <div class="line hor b"></div>
-    }
+    } -->
 
 </div>

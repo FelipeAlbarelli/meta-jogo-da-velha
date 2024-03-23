@@ -2,6 +2,33 @@ import { Injectable, OnInit, computed, effect, signal } from '@angular/core';
 import _ from 'lodash';
 import { BasePlayer } from './player.model';
 
+// type BoardIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 ;
+
+
+// opcao 1 de model
+type BoardKey = `${number}-${number}`
+
+type PlayerState =  1 | 2 | null
+
+type BoardState = {
+  [key in BoardKey]: PlayerState;
+};
+
+// opcao 2:
+type BoardState2 = {
+  [subBoard : number] : {
+    [cell : number] : PlayerState
+  }
+}
+
+const toggleState = (id: 1 | 2 | null) =>  {
+  if (id == null) {
+    return null
+  }
+  return id == 1 ? 2 : 1
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +37,20 @@ export class GameService  {
   player1 = signal<BasePlayer | null>(null)
   player2 = signal<BasePlayer | null>(null)
 
-  currentPlayer = signal<1 | 2 | null>(null)
+  currentPlayerState = signal<PlayerState>(null)
+  currentPlayer = computed( () => {
+    if (this.currentPlayerState() === 1) {
+      return this.player1()
+    }
+    if (this.currentPlayerState() === 2) {
+      return this.player2()
+    }
+    return null
+  })
+
+
+  boardState = signal<Partial<BoardState>>({})
+  boardState2 = signal<Partial<BoardState2>>({})
 
   saveEff = effect( () => {
     const player1 = this.player1();
@@ -33,12 +73,29 @@ export class GameService  {
 
   startGame( ) {
 
-    this.currentPlayer.set(1)
+    this.currentPlayerState.set(1)
   }
 
 
   makePlay(miniBoard: number , cell: number ) {
-    console.log({miniBoard, cell})
+    this.boardState.update( prev => ({
+      ...prev,
+      [`${miniBoard}-${cell}`] : this.currentPlayerState(),
+    
+    }))
+    const miniBoardState = this.boardState2()[miniBoard] ?? {}
+    const newMiniBoardState = {
+      ...miniBoardState,
+      [cell] : this.currentPlayerState()
+    }
+    this.boardState2.update( prev => ({
+      ...prev,
+      [miniBoard] : newMiniBoardState
+    }))
+
+    this.currentPlayerState.update(toggleState)
+    console.log({miniBoard, cell , curr: this.currentPlayerState()})
+    console.log(this.boardState())
   }
 
 
@@ -55,6 +112,9 @@ export class GameService  {
     if (player2) {
       this.player2.set(player2)
     }
+
+    this.startGame()
+    console.log({player1 , player2})
   }
 
 
