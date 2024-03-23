@@ -1,6 +1,6 @@
 import { Injectable, OnInit, computed, effect, signal } from '@angular/core';
 import _ from 'lodash';
-import { BasePlayer } from './game-logic/player.model';
+import { BasePlayer } from './player.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,8 @@ export class GameService  {
 
   player1 = signal<BasePlayer | null>(null)
   player2 = signal<BasePlayer | null>(null)
+
+  currentPlayer = signal<1 | 2 | null>(null)
 
   saveEff = effect( () => {
     const player1 = this.player1();
@@ -31,7 +33,14 @@ export class GameService  {
 
   startGame( ) {
 
+    this.currentPlayer.set(1)
   }
+
+
+  makePlay(miniBoard: number , cell: number ) {
+    console.log({miniBoard, cell})
+  }
+
 
   constructor() {
     const json = JSON.parse(localStorage.getItem('players') ?? '{}') as {

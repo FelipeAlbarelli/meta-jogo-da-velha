@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { GameService } from '../../game.service';
+import { GameService } from '../../game-logic/game.service';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 import { SubBoardComponent } from '../sub-board/sub-board.component';
 

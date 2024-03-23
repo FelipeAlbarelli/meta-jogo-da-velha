@@ -3,6 +3,8 @@
         <div class="boards-container">
             @for (cell of cells; track $index) {
                 <app-sub-board
+                    [id]="$index"
+                    [blackLines]="false"
                     class="board"
                 >
                 </app-sub-board>    

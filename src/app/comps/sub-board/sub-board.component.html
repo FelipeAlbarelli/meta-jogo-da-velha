@@ -1,15 +1,21 @@
 <div class="container">
     @for (cell of cells; track $index) {
-        <div class="cell">
+        <div 
+
+            (click)="gameS.makePlay(id() , $index)"
+            class="cell"
+        >
             
         </div>
     }
-    <div class="lines-cont ver">
-        <div class="line ver"></div>
-        <div class="line ver"></div>
-    </div>
-    <div class="lines-cont hor">
-        <div class="line hor"></div>
-        <div class="line hor"></div>
-    </div>
+
+    @if (blackLines()) {
+        <div class="line ver a"></div>
+        <div class="line ver b"></div>
+
+
+        <div class="line hor a"></div>
+        <div class="line hor b"></div>
+    }
+
 </div>
