@@ -37,15 +37,15 @@ export class GameService  {
   player1 = signal<BasePlayer | null>(null)
   player2 = signal<BasePlayer | null>(null)
 
+  players = computed( () => ({
+    1: this.player1(),
+    2: this.player2(),
+    'null' : null
+  }))
+
   currentPlayerState = signal<PlayerState>(null)
   currentPlayer = computed( () => {
-    if (this.currentPlayerState() === 1) {
-      return this.player1()
-    }
-    if (this.currentPlayerState() === 2) {
-      return this.player2()
-    }
-    return null
+    return this.players()[this.currentPlayerState() ?? 'null']
   })
 
 

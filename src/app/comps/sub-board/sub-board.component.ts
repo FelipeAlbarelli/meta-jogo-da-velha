@@ -22,8 +22,16 @@ export class SubBoardComponent {
 
   myState = computed( () => {
     const state = this.gameS.boardState2()
-    return state[this.id()]
+    return state[this.id()] ?? {}
     // const pairs = _.toPairs( state).filter( ([key , val]) => val != undefined )
+  })
+
+  cellMarker = computed( () => {
+    return {
+      1 : this.gameS.players()[1]?.marker ?? '',
+      2 : this.gameS.players()[2]?.marker ?? '',
+      '' : ''
+    }
   })
 
   log() {
