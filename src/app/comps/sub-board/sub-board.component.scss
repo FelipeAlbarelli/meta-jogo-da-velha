@@ -8,7 +8,10 @@
     justify-items: center;
     align-items: center;
     // background-color: #ddd;
-
+    &.disabled {
+        cursor: not-allowed;
+        background-color: #eee;
+    }
 }
 
 .cell {

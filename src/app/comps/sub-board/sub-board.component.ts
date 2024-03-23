@@ -34,6 +34,19 @@ export class SubBoardComponent {
     }
   })
 
+  canPlayHere = computed( () => {
+    const subBoard = this.gameS.currentPlayerState().subBoardToPlay;
+    return subBoard ==  'all' || subBoard == this.id()
+  })
+
+  tryToPlay(i : number) {
+    if (!this.canPlayHere()) {
+      return
+    }
+    this.gameS.makePlay(this.id() , i)
+
+  }
+
   log() {
     const state = this.gameS.boardState2()
 

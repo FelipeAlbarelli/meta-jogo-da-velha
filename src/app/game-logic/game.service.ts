@@ -43,13 +43,20 @@ export class GameService  {
     'null' : null
   }))
 
-  currentPlayerState = signal<PlayerState>(null)
-  currentPlayer = computed( () => {
-    return this.players()[this.currentPlayerState() ?? 'null']
+  currentPlayerState = signal<{
+    player : PlayerState,
+    subBoardToPlay : 'all' | number,
+  }>({
+    player: null,
+    subBoardToPlay: 'all'
   })
 
 
-  boardState = signal<Partial<BoardState>>({})
+  currentPlayer = computed( () => {
+    return this.players()[this.currentPlayerState().player ?? 'null']
+  })
+
+
   boardState2 = signal<Partial<BoardState2>>({})
 
   saveEff = effect( () => {
@@ -73,29 +80,32 @@ export class GameService  {
 
   startGame( ) {
 
-    this.currentPlayerState.set(1)
+    this.currentPlayerState.set({
+      player: 1,
+      subBoardToPlay: 'all'
+    })
   }
 
 
   makePlay(miniBoard: number , cell: number ) {
-    this.boardState.update( prev => ({
-      ...prev,
-      [`${miniBoard}-${cell}`] : this.currentPlayerState(),
-    
-    }))
+
+    console.log({miniBoard , cell})
     const miniBoardState = this.boardState2()[miniBoard] ?? {}
     const newMiniBoardState = {
       ...miniBoardState,
-      [cell] : this.currentPlayerState()
+      [cell] : this.currentPlayerState().player
     }
     this.boardState2.update( prev => ({
       ...prev,
       [miniBoard] : newMiniBoardState
     }))
 
-    this.currentPlayerState.update(toggleState)
-    console.log({miniBoard, cell , curr: this.currentPlayerState()})
-    console.log(this.boardState())
+    this.currentPlayerState.update(prev => ({
+      subBoardToPlay: cell,
+      player : toggleState(prev.player) 
+    }))
+
+    console.log(this.currentPlayerState())
   }
 
 
@@ -105,7 +115,7 @@ export class GameService  {
       player2 : BasePlayer | null
     }
     const {player1 , player2} = json
-    console.log({...json})
+
     if (player1) {
       this.player1.set(player1)
     }
@@ -114,7 +124,6 @@ export class GameService  {
     }
 
     this.startGame()
-    console.log({player1 , player2})
   }
 
 
