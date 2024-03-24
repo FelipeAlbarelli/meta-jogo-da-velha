@@ -4,8 +4,9 @@
     >
     @for (cell of cells; track $index) {
         <div 
+        [class.disabled]="!canPlayHere()"
 
-            (click)="gameS.makePlay(id() , $index) ;  log()"
+            (click)="tryToPlay($index);  log()"
             class="cell"
         >
         @if (!!myState()[$index]) {
